@@ -29,7 +29,10 @@ namespace ZKnight.PmxReader.Editor
                 {
                     vertices[i] = reader.ReadVector3();
                     normals[i] = reader.ReadVector3();
-                    uvs[i] = reader.ReadVector2();
+                    var uv = reader.ReadVector2();
+                    uv.y = 1.0f - uv.y;
+                    uvs[i] = uv;
+
                     for (var j = 0; j < _head.ExVect4Count; ++j)
                     {
                         exVect4[i * _head.ExVect4Count + j] = reader.ReadVector4();
@@ -59,12 +62,14 @@ namespace ZKnight.PmxReader.Editor
                     name = _head.ModelName,
                     vertices = vertices,
                     normals = normals,
-                    uv = uvs,
                     triangles = traingles
                 };
 
+                _mesh.SetUVs(0, uvs);
+
                 _mesh.RecalculateBounds();
                 _mesh.boneWeights = boneWeights;
+                _mesh.RecalculateTangents();
                 return true;
             }
             catch (System.Exception e)
@@ -76,11 +81,14 @@ namespace ZKnight.PmxReader.Editor
 
         private int[] TriangleReader(BinaryReader reader)
         {
-            var triangleCount = reader.ReadInt32();
-            var triangles = new int[triangleCount];
+            var triangleIndexCount = reader.ReadInt32();
+            var triangles = new int[triangleIndexCount];
+            var triangleCount = triangleIndexCount / 3;
             for (var i = 0; i < triangleCount; ++i)
             {
-                triangles[i] = _head.ReadVertexIndex(reader);
+                triangles[i * 3 + 0] = _head.ReadVertexIndex(reader);
+                triangles[i * 3 + 1] = _head.ReadVertexIndex(reader);
+                triangles[i * 3 + 2] = _head.ReadVertexIndex(reader);
             }
             return triangles;
         }

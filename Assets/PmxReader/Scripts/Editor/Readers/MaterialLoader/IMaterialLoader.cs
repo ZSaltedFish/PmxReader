@@ -35,16 +35,16 @@ namespace ZKnight.PmxReader.Editor
                 Flag = reader.ReadByte();
                 EdgeColor = reader.ReadColorRGBA();
                 EdgeSize = reader.ReadSingle();
-                TextureIndex = reader.ReadInt32();
-                SphereTextureIndex = reader.ReadInt32();
+                TextureIndex = head.ReadTextureIndex(reader);
+                SphereTextureIndex = head.ReadTextureIndex(reader);
                 SphereMode = reader.ReadByte();
                 ToonFlag = reader.ReadByte();
-                ToonTextureIndex = reader.ReadInt32();
+                ToonTextureIndex = head.ReadTextureIndex(reader);
                 Memo = reader.ReadString(head);
                 VertexCount = reader.ReadInt32();
             }
         }
         MaterialData GetData(BinaryReader reader, PmxHead head);
-        Material LoadMaterial(MaterialData materialData);
+        Material LoadMaterial(MaterialData materialData, TextureReader tex);
     }
 }

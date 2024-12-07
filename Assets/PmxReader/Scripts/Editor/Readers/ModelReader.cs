@@ -1,5 +1,4 @@
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 namespace ZKnight.PmxReader.Editor
@@ -8,9 +7,21 @@ namespace ZKnight.PmxReader.Editor
     {
         public string Name => _head.ModelName;
         public Mesh Mesh => _meshReader.Mesh;
+        public Material[] Materials => _materialReader.Materials;
+        public GameObject RootObject => _nodeReader.Root;
+
         private PmxHead _head;
         private MeshReader _meshReader;
         private TextureReader _textureReader;
+        private MaterialReader _materialReader;
+        private NodeReader _nodeReader;
+        private float _factor;
+
+        public ModelReader(float factor)
+        {
+            _factor = factor;
+        }
+
         public bool Load(string path)
         {
             using var reader = new BinaryReader(File.OpenRead(path));
@@ -21,6 +32,13 @@ namespace ZKnight.PmxReader.Editor
 
             _textureReader = new TextureReader(Path.GetDirectoryName(path), _head);
             if (!_textureReader.ReadTextures(reader)) return false;
+
+            _materialReader = new MaterialReader(_head, _textureReader, _meshReader);
+            if (!_materialReader.ReadMaterial(reader)) return false;
+
+            _nodeReader = new NodeReader(_head, _factor);
+            if (!_nodeReader.ReadNode(reader)) return false;
+            if (!_nodeReader.SetRenderer(Mesh, Materials)) return false;
 
             return true;
         }
@@ -55,13 +73,6 @@ namespace ZKnight.PmxReader.Editor
             _head.GlobalModelInfo = reader.ReadString(_head);
 
             return true;
-        }
-
-        [MenuItem("PmxReader/Initialize")]
-        public static void Initialize()
-        {
-            var modelReader = new ModelReader();
-            modelReader.Load("Assets/Model/PmxModel.pmx");
         }
     }
 }

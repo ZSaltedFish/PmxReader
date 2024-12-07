@@ -1,0 +1,17 @@
+{
+    "name": "com.zknight.pmxreader",
+    "displayName": "PmxReader",
+    "version": "1.0.0",
+    "description": "A Unity package to read PMX files.",
+    "unity": "2021.3",
+    "author": {
+      "name": "ZKnight"
+    },
+    "keywords": [
+      "pmx",
+      "reader",
+      "unity"
+    ],
+    "hideInEditor": false
+  }
+  

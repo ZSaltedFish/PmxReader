@@ -24,6 +24,7 @@ namespace ZKnight.PmxReader.Editor
                 var uvs = new Vector2[vertexCount];
                 var exVect4 = new Vector4[_head.ExVect4Count * vertexCount];
                 var boneWeights = new BoneWeight[vertexCount];
+                var color = new Color[vertexCount];
 
                 for (var i = 0; i < vertexCount; ++i)
                 {
@@ -54,6 +55,10 @@ namespace ZKnight.PmxReader.Editor
                     {
                         throw new System.Exception("Invalid edge magnitude.");
                     }
+                    else
+                    {
+                        color[i] = new Color(edgeMag, edgeMag, edgeMag, 1.0f);
+                    }
                 }
 
                 var traingles = TriangleReader(reader);
@@ -62,10 +67,10 @@ namespace ZKnight.PmxReader.Editor
                     name = _head.ModelName,
                     vertices = vertices,
                     normals = normals,
-                    triangles = traingles
+                    triangles = traingles,
+                    colors = color,
+                    uv = uvs
                 };
-
-                _mesh.SetUVs(0, uvs);
 
                 _mesh.RecalculateBounds();
                 _mesh.boneWeights = boneWeights;

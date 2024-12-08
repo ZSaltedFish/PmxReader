@@ -15,6 +15,8 @@ namespace ZKnight.PmxReader.Editor
         private TextureReader _textureReader;
         private MaterialReader _materialReader;
         private NodeReader _nodeReader;
+        private MorphReader _morphReader;
+        private DisplayFrameReader _displayFrameReader;
         private float _factor;
 
         public ModelReader(float factor)
@@ -40,6 +42,11 @@ namespace ZKnight.PmxReader.Editor
             if (!_nodeReader.ReadNode(reader)) return false;
             if (!_nodeReader.SetRenderer(Mesh, Materials)) return false;
 
+            _morphReader = new MorphReader(_head);
+            if (!_morphReader.ReadMorph(reader, Mesh, _nodeReader.Bones)) return false;
+
+            _displayFrameReader = new DisplayFrameReader(_head);
+            if (!_displayFrameReader.ReadDisplayFrame(reader)) return false;
             return true;
         }
 

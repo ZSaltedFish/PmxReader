@@ -137,6 +137,7 @@ namespace ZKnight.PmxReader.Editor
 
         public GameObject Root => _root;
         public Node[] Nodes => _nodes;
+        public GameObject[] Bones => _gameObjects;
         private readonly PmxHead _head;
         private GameObject _root, _nodeRoot, _renderRoot;
         private Node[] _nodes;
@@ -226,6 +227,7 @@ namespace ZKnight.PmxReader.Editor
         {
             var gameArray = new GameObject[_nodes.Length];
             _root = new GameObject(_head.ModelName);
+            _ = _root.AddComponent<Animator>();
             _nodeRoot = new GameObject($"{_head.ModelName}_arm");
             _renderRoot = new GameObject($"{_head.ModelName}_mesh");
 

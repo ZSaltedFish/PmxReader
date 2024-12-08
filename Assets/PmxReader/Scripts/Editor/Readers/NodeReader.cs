@@ -138,6 +138,8 @@ namespace ZKnight.PmxReader.Editor
         public GameObject Root => _root;
         public Node[] Nodes => _nodes;
         public GameObject[] Bones => _gameObjects;
+        public GameObject BoneRoot => _nodeRoot;
+
         private readonly PmxHead _head;
         private GameObject _root, _nodeRoot, _renderRoot;
         private Node[] _nodes;
@@ -232,13 +234,11 @@ namespace ZKnight.PmxReader.Editor
             _renderRoot = new GameObject($"{_head.ModelName}_mesh");
 
             _nodeRoot.transform.SetParent(_root.transform);
-            _nodeRoot.transform.eulerAngles = new Vector3(0, 180, 0);
             _renderRoot.transform.SetParent(_root.transform);
             _root.transform.localPosition = Vector3.zero;
             _root.transform.localRotation = Quaternion.identity;
             _root.transform.localScale = Vector3.one;
 
-            _nodeRoot.transform.localScale = Vector3.one * _factor;
             _gameObjects = gameArray;
             for (var i = 0; i < _nodes.Length; ++i)
             {
@@ -263,6 +263,8 @@ namespace ZKnight.PmxReader.Editor
                     go.transform.SetParent(_nodeRoot.transform);
                 }
             }
+            _nodeRoot.transform.eulerAngles = new Vector3(0, 180, 0);
+            _nodeRoot.transform.localScale = Vector3.one * _factor;
         }
 
         public bool SetRenderer(Mesh mesh, Material[] materials)

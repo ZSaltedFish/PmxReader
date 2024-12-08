@@ -9,6 +9,8 @@ namespace ZKnight.PmxReader.Editor
         public Mesh Mesh => _meshReader.Mesh;
         public Material[] Materials => _materialReader.Materials;
         public GameObject RootObject => _nodeReader.Root;
+        public GameObject[] Bones => _nodeReader.Bones;
+        public GameObject BoneRoot => _nodeReader.BoneRoot;
 
         private PmxHead _head;
         private MeshReader _meshReader;

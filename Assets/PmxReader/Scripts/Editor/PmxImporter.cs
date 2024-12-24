@@ -9,6 +9,7 @@ namespace ZKnight.PmxReader.Editor
         public float Factor = 0.1f;
         public Transform[] ModelTransforms;
         public Avatar ModeAvatar;
+        public GameObject RootObject, BoneRoot;
         public override void OnImportAsset(AssetImportContext ctx)
         {
             var modelReader = new ModelReader(Factor);
@@ -24,9 +25,21 @@ namespace ZKnight.PmxReader.Editor
             var root = modelReader.RootObject;
             if (root.TryGetComponent<Animator>(out var anim))
             {
-                var humanoidCheck = new HumanoidCheck(modelReader.Bones, anim);
-                if (humanoidCheck.TryCreateHumanoid(out var avatar, modelReader.BoneRoot.transform))
+                if (ModeAvatar == null)
                 {
+                    Debug.Log("Create Avatar");
+                    var humanoidCheck = new HumanoidCheck(modelReader.Bones, anim);
+                    if (humanoidCheck.TryCreateHumanoid(out var avatar, modelReader.BoneRoot.transform))
+                    {
+                        avatar.name = $"{modelReader.Name}_Avatar";
+                        ctx.AddObjectToAsset("avatar", avatar);
+                        anim.avatar = avatar;
+                        ModeAvatar = anim.avatar;
+                    }
+                }
+                else
+                {
+                    var avatar = ModeAvatar;
                     avatar.name = $"{modelReader.Name}_Avatar";
                     ctx.AddObjectToAsset("avatar", avatar);
                     anim.avatar = avatar;
@@ -34,6 +47,8 @@ namespace ZKnight.PmxReader.Editor
                 }
             }
             ModelTransforms = root.GetComponentsInChildren<Transform>();
+            RootObject = root;
+            BoneRoot = modelReader.BoneRoot;
             ctx.AddObjectToAsset("root", root);
             ctx.SetMainObject(root);
         }

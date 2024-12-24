@@ -8,9 +8,11 @@ namespace ZKnight.PmxReader.Editor
         public Mesh Mesh => _mesh;
         private PmxHead _head;
         private Mesh _mesh;
+        private float _factor;
         
-        public MeshReader(PmxHead head)
+        public MeshReader(PmxHead head, float factor)
         {
+            _factor = factor;
             _head = head;
         }
 
@@ -28,7 +30,7 @@ namespace ZKnight.PmxReader.Editor
 
                 for (var i = 0; i < vertexCount; ++i)
                 {
-                    vertices[i] = reader.ReadVector3();
+                    vertices[i] = reader.ReadVector3() * _factor;
                     normals[i] = reader.ReadVector3();
                     var uv = reader.ReadVector2();
                     uv.y = 1.0f - uv.y;

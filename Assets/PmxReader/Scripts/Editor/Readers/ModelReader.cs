@@ -31,7 +31,7 @@ namespace ZKnight.PmxReader.Editor
             using var reader = new BinaryReader(File.OpenRead(path));
             if (!TryReadHead(reader)) return false;
 
-            _meshReader = new MeshReader(_head);
+            _meshReader = new MeshReader(_head, _factor);
             if (!_meshReader.ReadMesh(reader)) return false;
 
             _textureReader = new TextureReader(Path.GetDirectoryName(path), _head);

@@ -164,7 +164,7 @@ namespace ZKnight.PmxReader.Editor
                     _nodes[i] = node;
                     node.LocalName = reader.ReadString(_head);
                     node.GlobalName = reader.ReadString(_head);
-                    node.Position = reader.ReadVector3();
+                    node.Position = reader.ReadVector3() * _factor;
                     node.Parent = _head.ReadBoneIndex(reader);
                     node.TransformHierarchy = reader.ReadInt32();
                     node.BoneFlag = reader.ReadBytes(2);
@@ -264,7 +264,6 @@ namespace ZKnight.PmxReader.Editor
                 }
             }
             _nodeRoot.transform.eulerAngles = new Vector3(0, 180, 0);
-            _nodeRoot.transform.localScale = Vector3.one * _factor;
         }
 
         public bool SetRenderer(Mesh mesh, Material[] materials)

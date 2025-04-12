@@ -24,5 +24,5 @@ Import this tool via Unity Package Manager.
 3. Select `Add package from git URL...`.
 4. Enter the following URL:
    ```plaintext
-   https://github.com/ZSaltedFish/PmxReader.git?path=Assets/pmxreader/package.json
+   https://github.com/ZSaltedFish/PmxReader.git?path=Assets/PmxReader
    ```

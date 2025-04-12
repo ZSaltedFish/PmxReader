@@ -24,5 +24,5 @@ Unity Package Manager を使用してこのツールをインポートします�
 3. `Add package from git URL...` を選択します。
 4. 次の URL を入力します：
    ```plaintext
-   https://github.com/ZSaltedFish/PmxReader.git?path=Assets/pmxreader/package.json
+   https://github.com/ZSaltedFish/PmxReader.git?path=Assets/PmxReader
    ```

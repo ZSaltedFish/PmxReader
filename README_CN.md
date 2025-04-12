@@ -24,4 +24,4 @@ PMX Reader 是一个用于帮助 Unity 读取 PMX 模型的工具，旨在简化
 3. 选择 `Add package from git URL...`。
 4. 输入以下 URL：
    ```plaintext
-   https://github.com/ZSaltedFish/PmxReader.git?path=Assets/pmxreader/package.json
+   https://github.com/ZSaltedFish/PmxReader.git?path=Assets/PmxReader
